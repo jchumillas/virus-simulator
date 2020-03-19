@@ -12,10 +12,22 @@
     </v-row>
     <v-row>
       <v-col>
+        <v-btn @click="stop = !stop">
+          <span v-if="!stop">Pause <v-icon right dark>mdi-pause</v-icon></span>
+          <span v-if="stop">Play <v-icon right dark>mdi-play</v-icon></span>
+        </v-btn>
+        <v-btn @click="updateBalls()">Restart<v-icon right dark>mdi-cached</v-icon></v-btn>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
         <v-card light>
-          <v-tabs v-model="tab" centered icons-and-text>
+          <v-tabs v-model="active_tab" centered icons-and-text>
             <v-tabs-slider></v-tabs-slider>
-
+            <v-tab href="#tab-legend">
+              Legend
+              <v-icon>mdi-information</v-icon>
+            </v-tab>
             <v-tab href="#tab-scenario">
               Scenario config
               <v-icon>mdi-earth</v-icon>
@@ -32,12 +44,36 @@
               Stats
               <v-icon>mdi-chart-bar</v-icon>
             </v-tab>
-            <v-tab href="#tab-legend">
-              Legend
-              <v-icon>mdi-information</v-icon>
-            </v-tab>
           </v-tabs>
-          <v-tabs-items v-model="tab" light>
+          <v-tabs-items v-model="active_tab" light>
+            <v-tab-item :value="'tab-legend'">
+              <v-card flat light>
+                <v-card-text>
+                  <v-row>
+                    <v-col md="3" sm="4" align-self="center">
+                      <v-icon color="black">mdi-checkbox-blank-circle-outline</v-icon>
+                      <v-label light>Healthy</v-label>
+                    </v-col>
+                    <v-col md="3" sm="4" align-self="center">
+                      <v-icon color="orange">mdi-checkbox-blank-circle</v-icon>
+                      <v-label light>Infected & incubation period</v-label>
+                    </v-col>
+                    <v-col md="3" sm="4" align-self="center">
+                      <v-icon color="red">mdi-checkbox-blank-circle</v-icon>
+                      <v-label light>Infected & symptomatic</v-label>
+                    </v-col>
+                    <v-col md="3" sm="4" align-self="center">
+                      <v-icon color="blue">mdi-checkbox-blank-circle</v-icon>
+                      <v-label light>Healthy & immunized</v-label>
+                    </v-col>
+                    <v-col md="3" sm="4" align-self="center">
+                      <v-icon color="red">mdi-close-thick</v-icon>
+                      <v-label light>Dead</v-label>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+              </v-card>
+            </v-tab-item>
             <v-tab-item :value="'tab-scenario'">
               <v-card flat>
                 <v-card-text>
@@ -202,34 +238,6 @@
                 </v-card-text>
               </v-card>
             </v-tab-item>
-            <v-tab-item :value="'tab-legend'">
-              <v-card flat light>
-                <v-card-text>
-                  <v-row>
-                    <v-col md="3" sm="4" align-self="center">
-                      <v-icon color="black">mdi-checkbox-blank-circle-outline</v-icon>
-                      <v-label light>Healthy</v-label>
-                    </v-col>
-                    <v-col md="3" sm="4" align-self="center">
-                      <v-icon color="orange">mdi-checkbox-blank-circle</v-icon>
-                      <v-label light>Infected & incubation period</v-label>
-                    </v-col>
-                    <v-col md="3" sm="4" align-self="center">
-                      <v-icon color="red">mdi-checkbox-blank-circle</v-icon>
-                      <v-label light>Infected & symptomatic</v-label>
-                    </v-col>
-                    <v-col md="3" sm="4" align-self="center">
-                      <v-icon color="blue">mdi-checkbox-blank-circle</v-icon>
-                      <v-label light>Healthy & immunized</v-label>
-                    </v-col>
-                    <v-col md="3" sm="4" align-self="center">
-                      <v-icon color="red">mdi-close-thick</v-icon>
-                      <v-label light>Dead</v-label>
-                    </v-col>
-                  </v-row>
-                </v-card-text>
-              </v-card>
-            </v-tab-item>
           </v-tabs-items>
         </v-card>
       </v-col>
@@ -243,21 +251,23 @@ import Sparkline from '@/components/Sparkline';
 import Ball from '@/lib/Ball';
 let balls = [];
 let vueCanvas = null;
-const maxVel = 1;
-const currentFps = 60;
-const stop = false;
+// const maxVel = 1;
+const currentFps = [30, 60];
+const fpsMult = [2, 1];
 let fpsInterval, now, then, elapsed;
 
 export default {
   components: { Sparkline },
   data() {
     return {
+      stop: true,
+      fpsRatio: 0,
       days: 0,
       currentFrame: 0,
-      tab: null,
+      active_tab: 'tab-legend',
       mapWidth: 1100,
       mapHeight: 600,
-      ballsNum: 300,
+      ballsNum: 600,
       obedienceRate: 90,
       agesDistribution: [2, 3, 4, 6, 7, 6, 3, 3, 2],
       agesDistString: 'ageDist',
@@ -443,7 +453,7 @@ export default {
         const ball = new Ball(
           vueCanvas,
           balls,
-          maxVel,
+          fpsMult[this.fpsRatio],
           this.agesDistribution,
           this.incubationTime,
           this.symptomaticTime,
@@ -464,7 +474,7 @@ export default {
       this.symptomaticRegister = [];
       this.deadAcumulatedRegister = [];
       this.deadToday = [];
-      this.startAnimating(currentFps);
+      this.startAnimating(currentFps[this.fpsRatio]);
     },
     startAnimating(fps) {
       fpsInterval = 1000 / fps;
@@ -472,13 +482,14 @@ export default {
       this.loop();
     },
     loop() {
-      if (stop) return;
       requestAnimationFrame(this.loop);
       now = Date.now();
       elapsed = now - then;
       if (elapsed > fpsInterval) {
-        this.currentFrame++;
-        this.days = Math.round(this.currentFrame / currentFps / 2);
+        if (!this.stop) {
+          this.currentFrame++;
+          this.days = Math.round(this.currentFrame / (currentFps[this.fpsRatio] / (2 / 4)));
+        }
         then = now - (elapsed % fpsInterval);
 
         vueCanvas.fillStyle = '#121212';
@@ -488,9 +499,9 @@ export default {
 
         for (let i = 0; i < balls.length; i++) {
           balls[i].draw(vueCanvas);
-          if (!balls[i].died) {
+          if (!balls[i].died && !this.stop) {
             balls[i].update(vueCanvas, this.days, this.increaseHealthBusy, this.decreaseHealthBusy, this.isHealthFull);
-            balls[i].collisionDetect(this.propagation);
+            balls[i].collisionDetect(this.propagation, fpsMult[this.fpsRatio]);
           }
         }
 
