@@ -377,12 +377,12 @@ export default {
         series: [
           {
             values: this.deadInHospital,
-            text: 'In Hospital',
+            text: 'Inside Healthcare',
             palette: 0
           },
           {
             values: this.deadAtHome,
-            text: 'In home',
+            text: 'Outside Healthcare',
             palette: 1
           }
         ]
