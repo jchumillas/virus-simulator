@@ -251,7 +251,6 @@ import Sparkline from '@/components/Sparkline';
 import Ball from '@/lib/Ball';
 let balls = [];
 let vueCanvas = null;
-// const maxVel = 1;
 const currentFps = [30, 60];
 const fpsMult = [2, 1];
 let fpsInterval, now, then, elapsed;

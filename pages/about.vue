@@ -15,6 +15,12 @@
           It is likely to give performance problems after several simulations. If you have such performance problems,
           reload the page.
         </p>
+        <br />
+        <p>
+          Developed by
+          <a target="blank" href="https://twitter.com/JChumillas/status/1240682466823884800">José Chumillas García</a>.
+          Madrid, Spain
+        </p>
         <v-divider />
         <br />
         <h3>🇪🇸</h3>
@@ -29,6 +35,13 @@
         <p>
           Es probable que dé problemas de rendimiento tras varias simulaciones. Si tienes dichos problemas de
           rendimiento recarga la página.
+        </p>
+
+        <br />
+        <p>
+          Desarrollado por
+          <a target="blank" href="https://twitter.com/JChumillas/status/1240682466823884800">José Chumillas García</a>.
+          Madrid, España
         </p>
       </v-col>
     </v-row>
