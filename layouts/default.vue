@@ -63,6 +63,19 @@ export default {
       rightDrawer: false,
       title: 'Virus Simulator v0.5'
     };
+  },
+  head() {
+    return {
+      title: 'Virus Simulator',
+      meta: [
+        {
+          hid: 'Virus Simulator v0.5',
+          name: 'Virus Simulator by José Chumillas García',
+          content:
+            'Virus Simulator is an experimental project that aims to recreate an emulated environment of viral spread.'
+        }
+      ]
+    };
   }
 };
 </script>
