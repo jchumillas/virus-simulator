@@ -4,6 +4,10 @@
       <v-col>
         <h1>Virus simulator</h1>
         <h3>Days: {{ days }}</h3>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
         <!-- Canvas -->
         <div class="div-canvas">
           <canvas id="c"></canvas>
@@ -268,7 +272,7 @@ export default {
       mapHeight: 600,
       ballsNum: 600,
       obedienceRate: 90,
-      agesDistribution: [2, 3, 4, 6, 7, 6, 3, 3, 2],
+      agesDistribution: [3, 3, 4, 5, 6, 6, 3, 2, 1],
       agesDistString: 'ageDist',
       agesDistributionLabel: ['0+', '10+', '20+', '30+', '40+', '50+', '60+', '70+', '80+'],
       propagation: 3,
@@ -291,7 +295,15 @@ export default {
       deadAcumulatedRegister: [],
       deadToday: [],
       deadInHospital: [],
-      deadAtHome: []
+      deadAtHome: [],
+      presets: [
+        {
+          name: 'COVID19',
+          fatalityAgesDistribution: [0, 0, 0, 0, 1, 1, 3, 8, 15],
+          severity: 2,
+          incubationTime: [2, 11]
+        }
+      ]
     };
   },
   computed: {
@@ -583,7 +595,6 @@ export default {
 <style lang="scss" scoped>
 .div-canvas {
   text-align: center;
-  min-height: 600px;
   overflow: scroll;
   &::-webkit-scrollbar {
     display: none;
@@ -593,5 +604,7 @@ export default {
 canvas {
   border: 1px solid white;
   background: white;
+  width: 100%;
+  max-width: 1100px;
 }
 </style>
