@@ -323,8 +323,8 @@ export default {
       symptomatic: 0,
       deadAcumulatedRegister: [],
       deadToday: [],
-      deadInHospital: [],
-      deadAtHome: [],
+      deadInHospital: [0],
+      deadAtHome: [0],
       immunized: 0,
       presets: [
         {
@@ -356,7 +356,7 @@ export default {
     chartDataEveryDay() {
       return {
         title: { text: 'Total of active cases', 'adjust-layout': true },
-        type: 'mixed',
+        type: 'line',
         legend: {
           layout: 'float',
           'background-color': 'none',
@@ -392,7 +392,6 @@ export default {
             values: this.infectedRegister,
             backgroundColor: 'blue',
             text: 'Infected (' + this.infected + ')',
-            type: 'line',
             aspect: 'spline',
             'line-color': '#007790',
             'legend-item': {
@@ -418,7 +417,6 @@ export default {
             values: this.incubatingRegister,
             backgroundColor: 'orange',
             text: 'Incubating (' + this.incubating + ')',
-            type: 'line',
             aspect: 'spline',
             'line-color': '#009872',
             'legend-item': {
@@ -444,7 +442,6 @@ export default {
             values: this.symptomaticRegister,
             backgroundColor: 'red',
             text: 'Symptomatic (' + this.symptomatic + ')',
-            type: 'line',
             aspect: 'spline',
             'line-color': '#da534d',
             'legend-item': {
@@ -477,9 +474,25 @@ export default {
     },
     chartDataAccumulated() {
       return {
-        title: { text: 'Infected & Dead (total accumulated)' },
+        title: { text: 'Total accumulated cases', 'adjust-layout': true },
         type: 'area',
-        legend: {},
+        legend: {
+          layout: 'float',
+          'background-color': 'none',
+          'border-width': 0,
+          shadow: 0,
+          align: 'center',
+          'adjust-layout': true,
+          'toggle-action': 'remove',
+          item: {
+            padding: 7,
+            marginRight: 10,
+            cursor: 'hand'
+          }
+        },
+        plotarea: {
+          margin: 'dynamic 45 60 dynamic'
+        },
         'scale-x': {
           label: {
             text: 'Days'
@@ -498,32 +511,139 @@ export default {
             values: this.infectedAcumulatedRegister,
             backgroundColor: 'blue',
             text: 'Infected',
-            aspect: 'spline'
+            aspect: 'spline',
+            'line-color': '#007790',
+            'legend-item': {
+              'background-color': '#007790',
+              borderRadius: 5,
+              'font-color': 'white'
+            },
+            'legend-marker': {
+              visible: false
+            },
+            marker: {
+              'background-color': '#007790',
+              'border-width': 1,
+              shadow: 0,
+              'border-color': '#69dbf1'
+            },
+            'highlight-marker': {
+              size: 6,
+              'background-color': '#007790'
+            }
           },
           {
             values: this.deadAcumulatedRegister,
             backgroundColor: 'red',
-            text: 'Dead',
-            aspect: 'spline'
+            text: 'Deaths',
+            aspect: 'spline',
+            'line-color': '#da534d',
+            'legend-item': {
+              'background-color': '#da534d',
+              borderRadius: 5,
+              'font-color': 'white'
+            },
+            'legend-marker': {
+              visible: false
+            },
+            marker: {
+              'background-color': '#da534d',
+              'border-width': 1,
+              shadow: 0,
+              'border-color': '#faa39f'
+            },
+            'highlight-marker': {
+              size: 6,
+              'background-color': '#da534d'
+            }
           }
         ]
       };
     },
     chartDataDead() {
       return {
-        title: { text: 'Dead' },
-        legend: {},
+        title: { text: 'Healthcare (deaths)', 'adjust-layout': true },
         type: 'pie',
+        legend: {
+          layout: 'float',
+          'background-color': 'none',
+          'border-width': 0,
+          shadow: 0,
+          align: 'center',
+          'adjust-layout': true,
+          'toggle-action': 'remove',
+          item: {
+            padding: 7,
+            marginRight: 10,
+            cursor: 'hand'
+          }
+        },
+        plotarea: {
+          margin: 'dynamic 45 60 dynamic'
+        },
+        'scale-x': {
+          label: {
+            text: 'Days'
+          }
+        },
+        'scale-y': {
+          label: {
+            text: 'Cases'
+          },
+          guide: {
+            'line-style': 'dotted'
+          }
+        },
         series: [
           {
             values: this.deadInHospital,
             text: 'Inside Healthcare',
-            palette: 0
+            backgroundColor: '#007790',
+            aspect: 'spline',
+            'line-color': '#007790',
+            'legend-item': {
+              'background-color': '#007790',
+              borderRadius: 5,
+              'font-color': 'white'
+            },
+            'legend-marker': {
+              visible: false
+            },
+            marker: {
+              'background-color': '#007790',
+              'border-width': 1,
+              shadow: 0,
+              'border-color': '#69dbf1'
+            },
+            'highlight-marker': {
+              size: 6,
+              'background-color': '#007790'
+            }
           },
           {
             values: this.deadAtHome,
             text: 'Outside Healthcare',
-            palette: 1
+            backgroundColor: '#da534d',
+            aspect: 'spline',
+            'line-color': '#da534d',
+            'legend-item': {
+              'background-color': '#da534d',
+              borderRadius: 5,
+              'font-color': 'white'
+            },
+            'legend-marker': {
+              visible: false
+            },
+            marker: {
+              'background-color': '#da534d',
+              'border-width': 1,
+              shadow: 0,
+              'border-color': '#faa39f'
+            },
+            'highlight-marker': {
+              size: 6,
+              'background-color': '#da534d'
+            }
           }
         ]
       };
