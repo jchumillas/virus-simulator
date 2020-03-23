@@ -5,115 +5,114 @@
         <h1>A simple virus simulator</h1>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col class="col-canvas" cols="12" md="6" lg="7">
-        <div id="simulation-section">
-          <div class="div-canvas">
-            <canvas id="c"></canvas>
-          </div>
-          <v-bottom-navigation>
-            <div class="d-flex mr-auto">
-              <v-btn @click="stop = !stop">
-                <span v-if="stop">Play</span>
-                <span v-if="!stop">Pause</span>
-                <v-icon v-if="stop" dark>mdi-play</v-icon>
-                <v-icon v-if="!stop" dark>mdi-pause</v-icon>
-              </v-btn>
-              <v-btn @click="updateBalls()">
-                <span>Restart</span>
-                <v-icon dark>mdi-cached</v-icon>
-              </v-btn>
-              <v-menu v-model="legendMenu" :close-on-content-click="false" offset-x max-width="520px">
-                <template v-slot:activator="{ on }">
-                  <v-btn v-on="on">
-                    <span>Legend</span>
-                    <v-icon dark>mdi-information</v-icon>
-                  </v-btn>
-                </template>
-                <v-card flat>
-                  <v-card-text>
-                    <v-row>
-                      <v-col cols="6" align-self="center">
-                        <v-icon color="white">mdi-checkbox-blank-circle</v-icon>
-                        <v-label>Healthy</v-label>
-                      </v-col>
-                      <v-col cols="6" align-self="center">
-                        <v-icon color="blue">mdi-checkbox-blank-circle</v-icon>
-                        <v-label>Recovered & immunized</v-label>
-                      </v-col>
-                      <v-col cols="6" align-self="center">
-                        <v-icon color="orange">mdi-checkbox-blank-circle</v-icon>
-                        <v-label>Infected & incubation period</v-label>
-                      </v-col>
-                      <v-col cols="6" align-self="center">
-                        <v-icon color="red">mdi-checkbox-blank-circle</v-icon>
-                        <v-label>Infected & symptomatic</v-label>
-                      </v-col>
-                      <v-col cols="6" align-self="center">
-                        <v-icon color="red">mdi-close-thick</v-icon>
-                        <v-label>Dead</v-label>
-                      </v-col>
-                    </v-row>
-                  </v-card-text>
-                </v-card>
-              </v-menu>
-              <v-menu v-model="actionsMenu" :close-on-content-click="false" :nudge-width="200" offset-x>
-                <template v-slot:activator="{ on }">
-                  <v-btn v-on="on">
-                    <span>Actions</span>
-                    <v-icon dark>mdi-flash</v-icon>
-                  </v-btn>
-                </template>
-                <v-card flat>
-                  <v-card-text>
-                    <v-row>
-                      <v-col>
-                        <v-label dark>Confinement</v-label>
-                        <v-radio-group v-model="confinement" row @change="applyConfinement()">
-                          <v-radio label="No" color="primary" value="no"></v-radio>
-                          <v-radio label="Partial" color="secondary" value="partial"></v-radio>
-                          <v-radio label="Full" color="error" value="full"></v-radio>
-                        </v-radio-group>
-                      </v-col>
-                    </v-row>
-                  </v-card-text>
-                </v-card>
-              </v-menu>
-            </div>
-          </v-bottom-navigation>
-          <v-bottom-navigation background-color="#4c4c4c">
-            <div class="d-flex mr-auto">
-              <v-btn disabled>
-                <span>Days</span>
-                <span class="title">{{ days }}</span>
-              </v-btn>
-            </div>
-            <div class="d-flex ml-auto">
-              <v-btn disabled>
-                <span>Recovered</span>
-                <v-progress-circular :size="40" :value="getImmunizedPercent" color="blue">
-                  {{ getImmunizedPercent }}%
-                </v-progress-circular>
-              </v-btn>
-
-              <v-btn disabled>
-                <span>Infected</span>
-                <v-progress-circular :size="40" :value="getInfectedPercent" color="orange">
-                  {{ getInfectedPercent }}%
-                </v-progress-circular>
-              </v-btn>
-
-              <v-btn disabled>
-                <span>Dead</span>
-                <v-progress-circular :size="40" :value="getDeadPercent" color="red">
-                  {{ getDeadPercent }}%
-                </v-progress-circular>
-              </v-btn>
-            </div>
-          </v-bottom-navigation>
+    <div class="padre">
+      <div class="hijo0"></div>
+      <div class="hijo1">
+        <div class="div-canvas">
+          <canvas id="c"></canvas>
         </div>
-      </v-col>
-      <v-col class="col-chart" cols="12" md="6" lg="5">
+        <v-bottom-navigation>
+          <div class="d-flex mr-auto">
+            <v-btn @click="stop = !stop">
+              <span v-if="stop">Play</span>
+              <span v-if="!stop">Pause</span>
+              <v-icon v-if="stop" dark>mdi-play</v-icon>
+              <v-icon v-if="!stop" dark>mdi-pause</v-icon>
+            </v-btn>
+            <v-btn @click="updateBalls()">
+              <span>Restart</span>
+              <v-icon dark>mdi-cached</v-icon>
+            </v-btn>
+            <v-menu v-model="legendMenu" :close-on-content-click="false" offset-x max-width="520px">
+              <template v-slot:activator="{ on }">
+                <v-btn v-on="on">
+                  <span>Legend</span>
+                  <v-icon dark>mdi-information</v-icon>
+                </v-btn>
+              </template>
+              <v-card flat>
+                <v-card-text>
+                  <v-row>
+                    <v-col cols="6" align-self="center">
+                      <v-icon color="white">mdi-checkbox-blank-circle</v-icon>
+                      <v-label>Healthy</v-label>
+                    </v-col>
+                    <v-col cols="6" align-self="center">
+                      <v-icon color="blue">mdi-checkbox-blank-circle</v-icon>
+                      <v-label>Recovered & immunized</v-label>
+                    </v-col>
+                    <v-col cols="6" align-self="center">
+                      <v-icon color="orange">mdi-checkbox-blank-circle</v-icon>
+                      <v-label>Infected & incubation period</v-label>
+                    </v-col>
+                    <v-col cols="6" align-self="center">
+                      <v-icon color="red">mdi-checkbox-blank-circle</v-icon>
+                      <v-label>Infected & symptomatic</v-label>
+                    </v-col>
+                    <v-col cols="6" align-self="center">
+                      <v-icon color="red">mdi-close-thick</v-icon>
+                      <v-label>Dead</v-label>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+              </v-card>
+            </v-menu>
+            <v-menu v-model="actionsMenu" :close-on-content-click="false" :nudge-width="200" offset-x>
+              <template v-slot:activator="{ on }">
+                <v-btn v-on="on">
+                  <span>Actions</span>
+                  <v-icon dark>mdi-flash</v-icon>
+                </v-btn>
+              </template>
+              <v-card flat>
+                <v-card-text>
+                  <v-row>
+                    <v-col>
+                      <v-label dark>Confinement</v-label>
+                      <v-radio-group v-model="confinement" row @change="applyConfinement()">
+                        <v-radio label="No" color="primary" value="no"></v-radio>
+                        <v-radio label="Partial" color="secondary" value="partial"></v-radio>
+                        <v-radio label="Full" color="error" value="full"></v-radio>
+                      </v-radio-group>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+              </v-card>
+            </v-menu>
+          </div>
+        </v-bottom-navigation>
+        <v-bottom-navigation background-color="#4c4c4c">
+          <div class="d-flex mr-auto">
+            <v-btn disabled>
+              <span>Days</span>
+              <span class="title">{{ days }}</span>
+            </v-btn>
+          </div>
+          <div class="d-flex ml-auto">
+            <v-btn disabled>
+              <span>Recovered</span>
+              <v-progress-circular :size="40" :value="getImmunizedPercent" color="blue">
+                {{ getImmunizedPercent }}%
+              </v-progress-circular>
+            </v-btn>
+
+            <v-btn disabled>
+              <span>Infected</span>
+              <v-progress-circular :size="40" :value="getInfectedPercent" color="orange">
+                {{ getInfectedPercent }}%
+              </v-progress-circular>
+            </v-btn>
+
+            <v-btn disabled>
+              <span>Dead</span>
+              <v-progress-circular :size="40" :value="getDeadPercent" color="red">
+                {{ getDeadPercent }}%
+              </v-progress-circular>
+            </v-btn>
+          </div>
+        </v-bottom-navigation>
+      </div>
+      <div class="hijo2">
         <v-row>
           <zingchart ref="chart" :data="chartDataEveryDay"></zingchart>
         </v-row>
@@ -123,8 +122,8 @@
         <v-row>
           <zingchart ref="chart" :data="chartDataDead"></zingchart>
         </v-row>
-      </v-col>
-      <v-col cols="12">
+      </div>
+      <div class="hijo3">
         <v-card light>
           <v-tabs v-model="active_tab" centered icons-and-text>
             <v-tabs-slider></v-tabs-slider>
@@ -141,9 +140,9 @@
             <v-tab-item :value="'tab-scenario'">
               <v-card flat>
                 <v-card-text>
-                  <v-label light>Population</v-label>
                   <v-slider
                     v-model="ballsNum"
+                    label="Population"
                     step="100"
                     min="100"
                     max="1000"
@@ -152,9 +151,9 @@
                     tick-size="4"
                     @change="updateBalls()"
                   ></v-slider>
-                  <v-label light>Obedience Rate</v-label>
                   <v-slider
                     v-model="obedienceRate"
+                    label="Obedience Rate"
                     step="5"
                     min="0"
                     max="100"
@@ -163,9 +162,9 @@
                     tick-size="4"
                     @change="updateBalls()"
                   ></v-slider>
-                  <v-label light>Health Capacity</v-label>
                   <v-slider
                     v-model="healthCapacityPercent"
+                    label="Health Capacity"
                     thumb-label="always"
                     tick-size="4"
                     :thumb-size="24"
@@ -204,11 +203,16 @@
             <v-tab-item :value="'tab-virus'">
               <v-card flat>
                 <v-card-text>
-                  <v-label light>Propagation</v-label>
-                  <v-slider v-model="propagation" :tick-labels="propagationLabels" :max="4" tick-size="4"></v-slider>
-                  <v-label light>Incubation time (days)</v-label>
+                  <v-slider
+                    v-model="propagation"
+                    label="Propagation"
+                    :tick-labels="propagationLabels"
+                    :max="4"
+                    tick-size="4"
+                  ></v-slider>
                   <v-range-slider
                     v-model="incubationTime"
+                    label="Incubation time (days)"
                     class="align-center"
                     :max="30"
                     :min="1"
@@ -217,9 +221,9 @@
                     @change="updateBalls()"
                   >
                   </v-range-slider>
-                  <v-label light>Symptomatic time (days)</v-label>
                   <v-range-slider
                     v-model="symptomaticTime"
+                    label="Symptomatic time (days)"
                     class="align-center"
                     :max="25"
                     :min="3"
@@ -228,9 +232,9 @@
                     @change="updateBalls()"
                   >
                   </v-range-slider>
-                  <v-label light>Severity</v-label>
                   <v-slider
                     v-model="severity"
+                    label="Severity"
                     :tick-labels="severityLabels"
                     :max="4"
                     tick-size="4"
@@ -268,8 +272,8 @@
             </v-tab-item>
           </v-tabs-items>
         </v-card>
-      </v-col>
-    </v-row>
+      </div>
+    </div>
   </v-container>
 </template>
 
@@ -279,8 +283,8 @@ import Sparkline from '@/components/Sparkline';
 import Ball from '@/lib/Ball';
 let balls = [];
 let vueCanvas = null;
-const currentFps = [20, 30, 60];
-const fpsMult = [3, 2, 1];
+const currentFps = [30, 60];
+const fpsMult = [2, 1];
 let fpsInterval, now, then, elapsed;
 
 export default {
@@ -290,7 +294,7 @@ export default {
       actionsMenu: false,
       legendMenu: false,
       stop: true,
-      fpsRatio: 1,
+      fpsRatio: 0,
       days: 0,
       currentFrame: 0,
       active_tab: 'tab-legend',
@@ -582,14 +586,8 @@ export default {
     vueCanvas.fillRect(20, 20, vueCanvas.canvas.width - 40, vueCanvas.canvas.height - 40);
     vueCanvas.stroke();
     this.generateBalls();
-    this.adjustChartSection();
-    window.addEventListener('resize', this.adjustChartSection);
   },
   methods: {
-    adjustChartSection() {
-      const offsetHeight = document.getElementById('simulation-section').offsetHeight;
-      document.getElementsByClassName('col-chart')[0].style.height = offsetHeight + 'px';
-    },
     generateBalls() {
       while (balls.length < this.ballsNum) {
         const ball = new Ball(
@@ -728,19 +726,57 @@ export default {
 html {
   background-color: #121212 !important;
 }
+.padre {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-gap: 20px;
+  // height: calc(100vh - HEADER - FOOTER - H1 SPACE - GAP);
+  height: calc(100vh - 220px);
 
-.col-chart {
-  overflow-y: auto;
-  padding-top: 0;
-  margin-top: 12px;
-}
-.col-canvas {
-  .v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
-    background-color: inherit !important;
+  @media screen and (min-width: $break-lg) {
+    grid-template-columns: 7fr 5fr;
   }
-  .v-btn {
+  @media screen and (min-width: $break-md) and (max-width: $break-lg) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media screen and (max-width: $break-md) {
+    grid-template-columns: 1fr;
+  }
+  .hijo0 {
+    grid-row: 1;
+  }
+  .hijo1 {
+    justify-content: center;
+    flex-direction: column;
+    grid-column: 1;
+    grid-row: 2;
+    grid-row-end: 2;
+    .v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+      background-color: inherit !important;
+    }
+    .v-btn {
+      @media screen and (max-width: $break-md) {
+        padding: 0 0px;
+      }
+    }
+  }
+  .hijo2 {
+    overflow-y: auto;
+    overflow-x: hidden;
+    grid-row: 2 / span 1;
+    grid-row-end: 2;
+    grid-column: 2;
     @media screen and (max-width: $break-md) {
-      padding: 0 0px;
+      display: none;
+    }
+  }
+  .hijo3 {
+    display: none;
+    grid-row: 2;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    @media screen and (max-width: $break-md) {
+      grid-column-end: 1;
     }
   }
 }
